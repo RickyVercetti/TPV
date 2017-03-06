@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TPV
 {
-    public partial class Form1 : Form
+    public partial class Productos : Form
     {
-        public Form1()
+        public Productos(Form categoria)
         {
             InitializeComponent();
         }
