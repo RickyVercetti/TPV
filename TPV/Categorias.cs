@@ -13,7 +13,7 @@ namespace TPV
 {
     public partial class Categorias : Form
     {
-        Button boton;
+        
         public Categorias()
         {
             InitializeComponent();
@@ -29,17 +29,19 @@ namespace TPV
             conex.Open();
 
             cmd = conex.CreateCommand();
-            cmd.CommandText = "Select distinct(categoria) from productos";
+            cmd.CommandText = "SELECT distinct(categoria) FROM tpv.productos";
 
             MySqlDataReader data = cmd.ExecuteReader();
             if (data.HasRows)
             {
                 while (data.Read())
                 {
-                    boton = new Button();
+                    Button boton = new Button();
                     boton.Text = data.GetString(0);
+                    boton.Name = data.GetString(0);
+                    boton.Size  = new Size(150,100);
                     boton.Click += new EventHandler(onClick_Boton);
-                    panel.Controls.Add(boton);
+                    flowLayoutPanel1.Controls.Add(boton);
                 }
             }
         }
@@ -66,7 +68,8 @@ namespace TPV
 
         private void onClick_Boton(object sender, EventArgs e)
         {
-            Productos produc = new Productos(this);
+            String categoria = ((Button)sender).Text;
+            Productos produc = new Productos(this,categoria);
             produc.ShowDialog();
         }
     }
