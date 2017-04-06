@@ -22,7 +22,7 @@ namespace TPV
 
         private void mostrarBotones()
         {
-            String myConex = "Server=localhost;Database=tpv;Uid=root;Pwd=1234;";
+            String myConex = "Server=localhost;Database=tpv;Uid=root;Pwd=root;";
             MySqlConnection conex = new MySqlConnection(myConex);
 
             MySqlCommand cmd;
@@ -39,6 +39,7 @@ namespace TPV
                     Button boton = new Button();
                     boton.Text = data.GetString(0);
                     boton.Name = data.GetString(0);
+                    boton.BackColor = Color.Transparent;
                     boton.Size  = new Size(150,100);
                     boton.Click += new EventHandler(onClick_Boton);
                     flowLayoutPanel1.Controls.Add(boton);
@@ -70,6 +71,7 @@ namespace TPV
         {
             String categoria = ((Button)sender).Text;
             Productos produc = new Productos(this,categoria);
+            MessageBox.Show(categoria);
             produc.ShowDialog();
         }
     }

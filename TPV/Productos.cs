@@ -13,38 +13,53 @@ namespace TPV
 {
     public partial class Productos : Form
     {
-        String cat;
+        String nombre_categoria;
+        Categorias cat;
       
-        public Productos(Form categoria,String nombre_categoria)
+        public Productos(Form categoria,String nombre)
         {
             InitializeComponent();
             mostrarbotones();
-            cat = nombre_categoria;
+            nombre_categoria = nombre;
+            cat = (Categorias) categoria;
         }
 
         private void mostrarbotones()
         {
-            String myConex = "Server=localhost;Database=tpv;Uid=root;Pwd=1234;";
-            MySqlConnection conex = new MySqlConnection(myConex);
+            String myConex = "Server=localhost;Database=tpv;Uid=root;Pwd=root;";
 
-            MySqlCommand cmd;
+            MySqlConnection conex = new MySqlConnection();
+            conex.ConnectionString = myConex;
             conex.Open();
+            //MessageBox.Show(nombre_categoria);
 
-            cmd = conex.CreateCommand();
-            cmd.CommandText = "SELECT * FROM tpv.productos WHERE categoria='"+cat+"'";
+
+
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = "SELECT nombre,precio FROM productos WHERE categoria=('"+nombre_categoria+"');";
+            cmd.Connection = conex;
+            
+
+          
+            
 
             MySqlDataReader data = cmd.ExecuteReader();
             if (data.HasRows)
             {
                 while (data.Read())
                 {
-                   
                     Button boton = new Button();
                     boton.Text = data.GetString(0);
-                    //boton.Click += new EventHandler(onClick_Boton);
+                    boton.Click += new EventHandler(onClick_Boton);
                     flowLayoutPanelProductos.Controls.Add(boton);
                 }
             }
+        }
+
+        private void onClick_Boton(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
